@@ -18,7 +18,7 @@ public class RunOITE {
 }
 
 /* TODO
- * 1. Wyci¹gn¹æ dane z pliku .txt i stworzyæ maski .png
+ * DONE 1. Wyci¹gn¹æ dane z pliku .txt i stworzyæ maski .png
  * 2. Œrodowisko testowe
  * 3. Metody wykrywania (jedna na ³ebka)
  * 

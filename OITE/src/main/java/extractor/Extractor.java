@@ -142,11 +142,3 @@ public class Extractor {
 	
 	
 }
-
-/* TODO
- * #DONE# 1. Wczytaæ plik .txt
- * 2. Wyci¹gn¹æ dane (interpretacja)
- * 3. ? Wczytaæ zdjêcia ? rozmiar ?
- * 4. Stworzyæ maski z punktów
- * 4. Zapisaæ do pliku .png uzyskane maski
- */
