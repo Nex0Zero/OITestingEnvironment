@@ -11,7 +11,7 @@ public class RunOITE {
 	public static void main(String[] args) {
 		
 		Extractor ext = new Extractor();
-		ext.readResourceTxtFile();
+		ext.readCorridorTxtFile();
 		
 	}
 
