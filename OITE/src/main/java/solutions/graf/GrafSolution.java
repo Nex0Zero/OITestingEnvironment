@@ -26,4 +26,10 @@ public class GrafSolution implements CaseSolution {
 		return null;
 	}
 
+	@Override
+	public BufferedImage findCorridor(BufferedImage image) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

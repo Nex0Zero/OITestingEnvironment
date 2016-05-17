@@ -8,4 +8,5 @@ import java.awt.image.BufferedImage;
  */
 public interface CaseSolution {
 	public BufferedImage findDoor(BufferedImage image);
+	public BufferedImage findCorridor(BufferedImage image);
 }

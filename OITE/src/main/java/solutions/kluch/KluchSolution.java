@@ -71,5 +71,11 @@ public class KluchSolution implements CaseSolution {
 	public void setHeight(int height) {
 		this.height = height;
 	}
+
+	@Override
+	public BufferedImage findCorridor(BufferedImage image) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
