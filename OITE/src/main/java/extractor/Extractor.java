@@ -2,6 +2,8 @@ package extractor;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Polygon;
+import java.awt.Shape;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -64,7 +66,8 @@ public class Extractor {
 		String dateTime = tabs[1];
 		String strangeNumber2 = tabs[2];
 		String setDirectory = tabs[3];
-		String data = tabs[4];
+		int elementType = Integer.parseInt(tabs[4]);
+		String data = tabs[5];
 
 		// Create folder for "set"
 		String setPath = path + fileName + "Masks" + "/" + setDirectory + "/";
@@ -73,7 +76,7 @@ public class Extractor {
 
 		// Create folder for "element"
 		File[] elements = setFile.listFiles();
-		String imagePath = setPath + "element" + (elements.length) + "/";
+		String imagePath = setPath + typeName(elementType) +"_" + (elements.length) + "/";
 		File elementFile = new File(imagePath);
 		elementFile.mkdir();
 		
@@ -99,7 +102,7 @@ public class Extractor {
 		// For each set
 		for (String set : sets) {
 			// Divide set by $
-			String[] figures = set.split("$");
+			String[] figures = set.split("\\$");
 			
 			// Create image - mask
 			BufferedImage mask = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -122,7 +125,8 @@ public class Extractor {
 				}
 				
 				// create polygon
-				graphic.fillPolygon(xs, ys, points.length);
+				if(points.length > 2)
+					graphic.fillPolygon(xs, ys, points.length);
 				
 			}
 			File imagesFile = new File(imagePath);
@@ -139,6 +143,13 @@ public class Extractor {
 
 	}
 	
-	
+	private String typeName(int val) {
+		if(val == 703)
+			return "Corridor";
+		if(val == 704)
+			return "Door";
+		else
+			return "Wrong_Type";
+	}
 	
 }

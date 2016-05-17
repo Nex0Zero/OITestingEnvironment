@@ -19,11 +19,12 @@ public class RunOITE {
 	public static void main(String[] args) {
 		
 		// Extractor
-//		Extractor ext = new Extractor();
-//		ext.readCorridorTxtFile();
+		Extractor ext = new Extractor();
+		ext.readCorridorTxtFile();
 		
 		// Detection Methods
 		List<CaseSolution> detectionMethods = new ArrayList<CaseSolution>();
+		
 		
 		
 	}
