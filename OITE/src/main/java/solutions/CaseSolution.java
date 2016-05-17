@@ -7,5 +7,5 @@ import java.awt.image.BufferedImage;
  *
  */
 public interface CaseSolution {
-	public BufferedImage findBench(BufferedImage image);
+	public BufferedImage findDoor(BufferedImage image);
 }

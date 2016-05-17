@@ -16,7 +16,7 @@ public class KluchSolution implements CaseSolution {
 	
 	
 	@Override
-	public BufferedImage findBench(BufferedImage image) {
+	public BufferedImage findDoor(BufferedImage image) {
 		createBlackMask(image);
 		findMatches(image, mask, matchColor, tolerance);
 		return mask;

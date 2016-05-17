@@ -12,7 +12,7 @@ import solutions.CaseSolution;
 public class GrafSolution implements CaseSolution {
 
 	@Override
-	public BufferedImage findBench(BufferedImage image) {
+	public BufferedImage findDoor(BufferedImage image) {
 		int height = image.getWidth();
 		int width = image.getHeight();
 		BufferedImage mask = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
