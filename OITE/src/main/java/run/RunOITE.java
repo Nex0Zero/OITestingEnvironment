@@ -14,6 +14,7 @@ public class RunOITE {
 
 	/**
 	 * @param args
+	 * args[0] - sciezka do zdjecia.
 	 */
 	public static void main(String[] args) {
 		
