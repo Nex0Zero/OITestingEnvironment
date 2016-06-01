@@ -4,9 +4,8 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 
-import solutions.CaseSolution;
 
-public class KluchSolution implements CaseSolution {
+public class KluchSolution {
 
 	private BufferedImage mask;
 	private int width;
@@ -14,8 +13,7 @@ public class KluchSolution implements CaseSolution {
 	private Color matchColor = new Color(150,75,0);
 	private int tolerance = 30;
 	
-	
-	@Override
+
 	public BufferedImage findDoor(BufferedImage image) {
 		createBlackMask(image);
 		findMatches(image, mask, matchColor, tolerance);
@@ -72,7 +70,6 @@ public class KluchSolution implements CaseSolution {
 		this.height = height;
 	}
 
-	@Override
 	public BufferedImage findCorridor(BufferedImage image) {
 		// TODO Auto-generated method stub
 		return null;

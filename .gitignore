@@ -14,3 +14,5 @@ hs_err_pid*
 OITE/src/main/resources/corridor.txt
 OITE/src/main/resources/test.txt
 *.rar
+OITE/corridor/SEQ/PART/abra02.bmp
+*.bmp
