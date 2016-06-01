@@ -5,16 +5,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
-import solutions.graf.GrafSolution;
-
 public class AccCalcCorridor {
 	
-	private static final Logger LOGGER= Logger.getLogger( GrafSolution.class.getName() );
+	private static final Logger LOGGER= Logger.getLogger( AccCalcCorridor.class.getName() );
 	
 	public static void main(String[] args) {
 		/*
@@ -113,7 +110,7 @@ KluchSolution
 		// Average
 		result = (double)(result / originalPicFiles.length);
 		
-		System.out.println(name + ": result= " + result);
+		System.out.println(name + ": " + AccCalcCorridor.class.getName() + ": result: " + result);
 	}
 	
 	private static double compareImages(BufferedImage originalImage, BufferedImage solutionImage) {

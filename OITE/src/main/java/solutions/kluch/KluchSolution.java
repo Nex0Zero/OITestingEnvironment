@@ -13,7 +13,7 @@ import solutions.graf.GrafSolution;
 
 public class KluchSolution {
 
-	private static final Logger LOGGER= Logger.getLogger( GrafSolution.class.getName() );
+	private static final Logger LOGGER= Logger.getLogger( KluchSolution.class.getName() );
 
 	/**
 	 * @param args[0] - path to images (.../name/SEQ/PART/)
