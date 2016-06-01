@@ -23,9 +23,14 @@ public class AccCalcCorridor {
 //		allSolutionAutoFinder(args[0]);
 		
 		/*
-		 corridorMasks\SEQ\PART\Corridor_0
-		 corridor-Graf\SEQ\PART\corridor
-		 GrafSolution
+corridorMasks\SEQ\PART\Corridor_0
+corridor-Graf\SEQ\PART\corridor
+GrafSolution
+		 */
+		/*
+corridorMasks\SEQ\PART\Corridor_0
+corridor-Kluch\SEQ\PART\corridor
+KluchSolution
 		 */
 		accCalc( new File(args[0]), new File(args[1]), args[2] );
 	}
@@ -141,7 +146,7 @@ public class AccCalcCorridor {
 				if(originalColor != solutionColor)
 					mismatch += 1;
 			}
-		
+
 		// acc formula
 		result = (double)matchingWhite / (double)(matchingWhite+mismatch);
 		
