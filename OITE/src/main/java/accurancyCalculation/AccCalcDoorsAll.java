@@ -5,10 +5,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
 public class AccCalcDoorsAll {
+	
+	private static final Logger LOGGER= Logger.getLogger( AccCalcDoorsAll.class.getName() );
 
 	public static void main(String[] args) {
 		/*
@@ -21,6 +24,67 @@ GrafSolution
 	}
 	
 	private static void accCalc(File original, File solution, String name) {
+		String doors = "door0";
+		// original = corridorMasks
+		// solution = corridor-Graf
+		double resultFULL = 0;
+		
+		// SEQ
+		File[] fileSEQ = original.listFiles();
+		for(int s = 0; s < fileSEQ.length; s++) {
+			double resultSEQ = 0;
+			
+			// PART
+			File[] filePART = fileSEQ[s].listFiles();
+			for(int p = 0; p < filePART.length; p++) {
+				double result = 0;
+				
+				LOGGER.info("Calc location: " + filePART[p].getPath());
+				
+				// original
+				File originalPicFiles[] = filePART[p].listFiles(new FilenameFilter() {
+
+					@Override
+					public boolean accept(File dir, String name) {
+						return name.startsWith("Door_");
+					}
+				});
+				// solution
+				String solutionPath = solution.getName() + "/" + fileSEQ[s].getName() + "/" + filePART[p].getName()
+						+ "/" + doors;
+				File solutionPicFiles[] = new File(solutionPath).listFiles();
+
+				BufferedImage originalImage = null;
+				BufferedImage solutionImage = null;
+				double localResult;
+				for (int i = 0; i < solutionPicFiles.length; i++) {
+					// Calc
+					// Load images
+					try {
+						originalImage = mergeDoors(originalPicFiles, i);
+						solutionImage = ImageIO.read(solutionPicFiles[i]);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+
+					}
+
+					// Compare images
+					localResult = compareImages(originalImage, solutionImage);
+					// Add to result
+					result += localResult;
+				}
+				// Average
+				result = (double) (result / solutionPicFiles.length);
+				resultSEQ += result;
+			}
+			resultSEQ = resultSEQ / (double) filePART.length;
+			resultFULL += resultSEQ;
+		}
+		resultFULL = resultFULL / fileSEQ.length;
+		
+		System.out.println(name + ": " + AccCalcDoorsAll.class.getName() + ": result: " + resultFULL);
+	}
+	private static void accCalc2(File original, File solution, String name) {
 		double result = 0;
 		
 		File originalPicFiles[] = original.listFiles(new FilenameFilter() {
