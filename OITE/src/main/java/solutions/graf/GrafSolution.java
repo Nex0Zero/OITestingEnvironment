@@ -21,7 +21,7 @@ public class GrafSolution{
 	/**
 	 * @param args[0] - path to images (.../name/SEQ/PART/)
 	 */
-	public static void main(String[] args) {
+	public static void main2(String[] args) {
 		LOGGER.info("Logger Name: " + LOGGER.getName());
 		
 		//String path = "corridor/SEQ/PART/";
@@ -71,7 +71,67 @@ public class GrafSolution{
 		}
 		LOGGER.info("Method End");
 	}
-	
+	public static void main(String[] args) {
+		LOGGER.info("Logger Name: " + LOGGER.getName());
+		
+		//String path = "corridor/";
+		String name = args[0];
+		
+		File pathFile = new File(name);
+		
+		// SEQ
+		File[] fileSEQ = pathFile.listFiles();
+		for(int s = 0; s < fileSEQ.length; s++) {
+			
+			// PART
+			File[] filePART = fileSEQ[s].listFiles();
+			for(int p = 0; p < filePART.length; p++) {
+				String savePath = name + "-Graf/" + fileSEQ[s].getName() + "/" + filePART[p].getName() + "/";
+				LOGGER.info("Location for generated masks: " + savePath);
+				
+				// Picture
+				File[] filePicture = filePART[p].listFiles();
+				
+				for(int i = 0; i < filePicture.length; i++) {
+					BufferedImage image = null;
+					
+					BufferedImage[] doorMasks = new BufferedImage[1];
+					BufferedImage corridorMask;
+					
+					try {
+						// read image
+						image = ImageIO.read( filePicture[i] );
+						
+						// find doors (masks)
+						doorMasks[0] = findDoors(image);
+						// find corridor (mask)
+						corridorMask = findCorridor(image);
+						
+						// save doors
+						for(int j = 0; j < doorMasks.length; j++) {
+							String doorName = "door-pic" + i;
+							File outputFile = new File(savePath + "door" + j + "/" + doorName + ".png");
+							outputFile.mkdirs();
+							ImageIO.write(doorMasks[j], "png", outputFile);
+						}
+						// save corridor
+						String corridorName = "corridor-pic" + i;	
+						File outputFile = new File(savePath + "corridor/" + corridorName + ".png");
+						outputFile.mkdirs();
+						ImageIO.write(corridorMask, "png", outputFile);
+						
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
+			}
+			
+		}
+		
+		LOGGER.info("Method End");
+	}
 	public static BufferedImage findDoors(BufferedImage image) {
 		int width = image.getWidth();
 		int height = image.getHeight();
