@@ -3,7 +3,7 @@ package solver;
 import java.awt.image.BufferedImage;
 import java.util.logging.Logger;
 
-import imageDetection.CannyEdgeDetector;
+import downloaded.CannyEdgeDetector;
 import imageDetection.MeanShift;
 import others.ArrayData;
 import others.ImageProcess;

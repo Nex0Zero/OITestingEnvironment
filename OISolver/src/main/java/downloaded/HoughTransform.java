@@ -1,4 +1,4 @@
-package imageDetection;
+package downloaded;
 
 import java.awt.image.*;
 import java.io.File;

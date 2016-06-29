@@ -1,4 +1,4 @@
-package imageDetection;
+package downloaded;
 
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
