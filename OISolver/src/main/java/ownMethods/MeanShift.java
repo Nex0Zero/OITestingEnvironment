@@ -1,4 +1,4 @@
-package imageDetection;
+package ownMethods;
 
 import java.awt.Color;
 import java.util.ArrayList;
