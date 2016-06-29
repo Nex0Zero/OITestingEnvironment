@@ -13,29 +13,42 @@ public class ImageOperations {
 	
 	private static int black = 16777216;
 	private static int white = 1;
+	private static double col = 0.45;
+	private static double masc = 0.55;
 	
 	
 	public static void compare2Mask(BufferedImage mask, BufferedImage ourMask, BufferedImage image){
+		Color green = Color.GREEN;
+		Color red = Color.RED;
+		Color yellow = Color.YELLOW;
 		for (int i = image.getMinX(); i < image.getWidth(); i++) {
 			for (int j = image.getMinY(); j < image.getHeight(); j++) {
 				int maskColor = Math.abs(mask.getRGB(i, j));
 				int ourMaskColor = Math.abs(ourMask.getRGB(i, j));
-//				System.out.println("Mask: "+maskColor +" Our: "+ourMaskColor);
 				if(maskColor == black && ourMaskColor == black){//czarny czarny
-//					System.out.println(0);
 					//czarny - czyli nic
 				}else if(maskColor == white && ourMaskColor == white){
-//					System.out.println(1);
 					//zielony
-					image.setRGB(i, j, 8845141);
+//					image.setRGB(i, j, 8845141);
+					Color color = new Color(image.getRGB(i, j));
+					int c = (int) (color.getGreen()*col + green.getGreen()*masc);
+					Color newColor = new Color(color.getRed(),c,color.getBlue());
+					image.setRGB(i, j, newColor.getRGB());
 				}else if(maskColor == white && ourMaskColor == black){
-//					System.out.println(2);
 					//zó³te
-					image.setRGB(i, j, 16250709);
+//					image.setRGB(i, j, 16250709);
+					Color color = new Color(image.getRGB(i, j));
+					int g = (int) (color.getGreen()*col + yellow.getGreen()*masc);
+					int r = (int) (color.getRed()*col + yellow.getRed()*masc);
+					Color newColor = new Color(r,g,color.getBlue());
+					image.setRGB(i, j, newColor.getRGB());
 				}else if(maskColor == black && ourMaskColor == white){
-//					System.out.println(3);
 					//czerwone
-					image.setRGB(i, j, 15605278);
+//					image.setRGB(i, j, 15605278);
+					Color color = new Color(image.getRGB(i, j));
+					int c = (int) (color.getRed()*col + red.getRed()*masc);
+					Color newColor = new Color(c,color.getGreen(),color.getBlue());
+					image.setRGB(i, j, newColor.getRGB());
 				}
 			}
 		}
