@@ -2,11 +2,8 @@ package extractor;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Polygon;
-import java.awt.Shape;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -18,11 +15,16 @@ import javax.imageio.ImageIO;
  */
 public class Extractor {
 	
+	public static void main(String[] args) {
+		readCorridorTxtFile();
+	}
+	
 	/**
 	 * Method for Corridor set images
 	 */
-	public void readCorridorTxtFile() {
+	public static void readCorridorTxtFile() {
 		String path = "src/main/resources/";
+		path = "C:/Workspace/#CORRIDOR/";
 		String fileName = "corridor";
 		
 		processTxtFile(path, fileName);
@@ -31,7 +33,7 @@ public class Extractor {
 	/**
 	 * @param path
 	 */
-	private void processTxtFile(String path, String fileName) {
+	private static void processTxtFile(String path, String fileName) {
 		System.out.println("processTxtFile:start");
 		
 		String line;
@@ -56,7 +58,7 @@ public class Extractor {
 		
 		System.out.println("processTxtFile:end");
 	}	
-	private void lineProcessing(String line, String path, String fileName) {
+	private static void lineProcessing(String line, String path, String fileName) {
 
 		// Divide line by tabs ("\t")
 		String[] tabs = line.split("\t");
@@ -143,7 +145,7 @@ public class Extractor {
 
 	}
 	
-	private String typeName(int val) {
+	private static String typeName(int val) {
 		if(val == 703)
 			return "Corridor";
 		if(val == 704)

@@ -50,7 +50,7 @@ GrafSolution
 					}
 				});
 				// solution
-				String solutionPath = solution.getName() + "/" + fileSEQ[s].getName() + "/" + filePART[p].getName()
+				String solutionPath = solution.getAbsolutePath() + "/" + fileSEQ[s].getName() + "/" + filePART[p].getName()
 						+ "/" + doors;
 				File solutionPicFiles[] = new File(solutionPath).listFiles();
 
@@ -68,8 +68,8 @@ GrafSolution
 
 					}
 
-					// Compare images
-					localResult = compareImages(originalImage, solutionImage);
+					// Compare images  HERE!!!
+					localResult = compareImagesGray(originalImage, solutionImage);
 					// Add to result
 					result += localResult;
 				}
@@ -197,6 +197,47 @@ GrafSolution
 					matchingWhite += 1;
 				// mismatch
 				if(originalColor != solutionColor)
+					mismatch += 1;
+			}
+
+		// acc formula
+		result = (double)matchingWhite / (double)(matchingWhite+mismatch);
+		
+		return result;
+	}
+	
+	private static double compareImagesGray(BufferedImage originalImage, BufferedImage solutionImage) {
+		double result;
+		/*
+		 * trafne / trafne + nietrafne
+		 */
+		
+		if(originalImage.getWidth() != solutionImage.getWidth() || originalImage.getHeight() != solutionImage.getHeight()) {
+			System.out.println("ERROR: dimensions are not equal!!!");
+			return 0;
+		}
+		
+		// white
+		int whiteRGB = new Color(255,255,255).getRGB();
+		
+		int originalColor;
+		int solutionColor;
+		long matchingWhite = 0;
+		long mismatch = 0;
+		for(int w = 0; w < originalImage.getWidth(); w++)
+			for(int h = 0; h < originalImage.getHeight(); h++) {
+				Color color = new Color( originalImage.getRGB(w, h) );
+				Color color2= new Color( solutionImage.getRGB(w, h) );
+				originalColor = color.getRed();
+				solutionColor = color2.getRed();
+				
+				// white match
+				if(solutionColor > 10 && originalColor > 10)
+					matchingWhite += 1;
+				// mismatch
+				if(originalColor <= 10 && solutionColor > 10)
+					mismatch += 1;
+				if(originalColor > 10 && solutionColor <= 10)
 					mismatch += 1;
 			}
 

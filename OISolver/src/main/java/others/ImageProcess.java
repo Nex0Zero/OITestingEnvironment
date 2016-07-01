@@ -95,6 +95,33 @@ public class ImageProcess {
 		return outputImage;
 	}
 	
+	static public ArrayData loadImageDataFromBI(BufferedImage inputImage) {
+		ArrayData data = null;
+
+		// Load Image
+		int imageType = inputImage.getType();
+
+		// Image info
+		int height = inputImage.getHeight();
+		int width = inputImage.getWidth();
+
+		// fill table
+		int[][][] table = new int[3][height][width];
+		Color color;
+		for (int h = 0; h < height; h++)
+			for (int w = 0; w < width; w++) {
+				color = new Color(inputImage.getRGB(w, h));
+				table[0][h][w] = color.getRed();
+				table[1][h][w] = color.getGreen();
+				table[2][h][w] = color.getBlue();
+			}
+
+		// create new ArrayData
+		data = new ArrayData(table, imageType);
+
+		return data;
+	}
+
 }
 
 

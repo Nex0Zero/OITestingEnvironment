@@ -31,14 +31,15 @@ import org.encog.neural.som.training.basic.neighborhood.NeighborhoodSingle;
 import others.ArrayData;
 import others.ImageProcess;
 
-public class SOMContener {
+public class SOMContener2 {
 	
 	SOM network;
 	BasicNetwork network2;
 	BasicTrainSOM train;
 	
+	int INSIZE = 0;
 	
-	public SOMContener(int inputCnt, int outputCnt) {
+	public SOMContener2(int inputCnt, int outputCnt) {
 		
 		network = new SOM(inputCnt, outputCnt);
 		
@@ -48,6 +49,8 @@ public class SOMContener {
 		network2.addLayer(new BasicLayer(new ActivationSigmoid(), false, 1));
 		network2.getStructure().finalizeStructure();
 		network2.reset();
+		
+		INSIZE = inputCnt;
 		
 	}
 	
@@ -108,12 +111,17 @@ public class SOMContener {
 					table[2][h][w] = 0;
 					
 				}
-				else if(result == -1) {
+				else if(result == 1) {
+					table[0][h][w] = 60;
+					table[1][h][w] = 60;
+					table[2][h][w] = 60;
+				}
+				else if(result == 2) {
 					table[0][h][w] = 120;
 					table[1][h][w] = 120;
 					table[2][h][w] = 120;
 				}
-				else if(result == 1) {
+				else if(result == 3) {
 					table[0][h][w] = 255;
 					table[1][h][w] = 255;
 					table[2][h][w] = 255;
@@ -136,7 +144,7 @@ public class SOMContener {
 		
 		ArrayData image = ImageProcess.loadImageDataFromBI(picture);
 		
-		double[][] result = new double[image.getH()*image.getW()][3];
+		double[][] result = new double[image.getH()*image.getW()][INSIZE];
 
 		for(int h = 0; h < image.getH(); h++)
 			for(int w = 0; w < image.getW(); w++) {
@@ -144,23 +152,28 @@ public class SOMContener {
 				double G = image.get(1, h, w);
 				double B = image.get(2, h, w);
 //				// R
-				result[ h*image.getW() + w ][0] = (double) R/255.0;
+//				result[ h*image.getW() + w ][0] = (double) R/255.0;
 //				// G
-				result[ h*image.getW() + w ][1] = (double) G/255.0;
-				// B
-				result[ h*image.getW() + w ][2] = (double) B/255.0;
+//				result[ h*image.getW() + w ][1] = (double) G/255.0;
+//				// B
+//				result[ h*image.getW() + w ][2] = (double) B/255.0;
 				double Lumi = 0.299*R + 0.587*G + 0.114*B;
-//				result[ h*image.getW() + w ][0] = Lumi/255; 	// Luminancja
+//				result[ h*image.getW() + w ][2] = Lumi/255; 	// Luminancja
 				double Odc = Math.atan2(Math.sqrt(3)*(G-B), 2*R-G-B);
-//				result[ h*image.getW() + w ][0] = Odc;			// Odcieñ
+				if( G==0 && B==0)
+					Odc = 0;
+//				result[ h*image.getW() + w ][4] = Odc;			// Odcieñ
 				double maks = Math.max(R,G);
 				maks = Math.max(maks,B);
 				double min = Math.min(R, G);
 				min = Math.min(min, B);
 				double Nas = (maks-min)/maks;
-				if(Nas > 1.0 || Nas < 0.0)
+				if(Nas > 1 || Nas < 0)
 					Nas = 0.0;
 //				result[ h*image.getW() + w ][1] = Nas; 			// Nasycenie
+				
+				result[ h*image.getW() + w ][0] = (double)h/(double)image.getH();				// h
+				result[ h*image.getW() + w ][1] = (double)w/(double)image.getW();				// w
 			}
 		
 		return result;
@@ -175,7 +188,7 @@ public class SOMContener {
 		int maxH = picture.getH();
 		int maxW = picture.getW();
 		
-		double[][] rPicture = new double[size][3];
+		double[][] rPicture = new double[size][INSIZE];
 		double[][] rMask = new double[size][1];
 		
 		int h,w;
@@ -187,13 +200,15 @@ public class SOMContener {
 				double R = picture.get(0, h, w);
 				double G = picture.get(1, h, w);
 				double B = picture.get(2, h, w);
-				rPicture[i][0] = (double) R/255.0;	//R
-				rPicture[i][1] = (double) G/255.0;	//G
-				rPicture[i][2] = (double) B/255.0;	//B
+//				rPicture[i][0] = (double) R/255.0;	//R
+//				rPicture[i][1] = (double) G/255.0;	//G
+//				rPicture[i][2] = (double) B/255.0;	//B
 				double Lumi = 0.299*R + 0.587*G + 0.114*B;
-//				rPicture[i][0] = Lumi/255; 			// Luminancja
+//				rPicture[i][2] = Lumi/255; 			// Luminancja
 				double Odc = Math.atan2(Math.sqrt(3)*(G-B), 2*R-G-B);
-//				rPicture[i][0] = Odc; 				// odcieñ
+//				rPicture[i][4] = Odc; 				// odcieñ
+				if(G==0 && B==0)
+					Odc = 0;
 				double maks = Math.max(R,G);
 				maks = Math.max(maks,B);
 				double min = Math.min(R, G);
@@ -202,6 +217,9 @@ public class SOMContener {
 				if(Nas > 1 || Nas < 0)
 					Nas = 0.0;
 //				rPicture[i][1] = Nas; 				// nasycenie
+				
+				rPicture[i][0] = (double)h/(double)maxH;				// h
+				rPicture[i][1] = (double)w/(double)maxW;				// w
 				
 				if (mask.get(0, h, w) >= 250)
 					rMask[i][0] = 1.0;
@@ -220,40 +238,6 @@ public class SOMContener {
 		//test(pictureBI, maskBI, size, rPicture, rMask);
 
 		return training;
-	}
-	
-	
-	private void test(BufferedImage pictureBI, BufferedImage maskBI, int size, 
-			double[][] rPicture, double[][] rMask ) {
-		// TEST
-		BufferedImage im = new BufferedImage(size, 2, pictureBI.getType());
-		Color color;
-		for(int i = 0; i < size; i++) {
-			color = new Color((int)rPicture[i][0], (int)rPicture[i][1], (int)rPicture[i][2]);
-			im.setRGB(i, 0, color.getRGB());
-			
-			if(rMask[i][0] == 1.0) {
-				color = new Color(255,255,255);
-				im.setRGB(i, 1, color.getRGB());
-			} else if ( rMask[i][0] == 0.0 ) {
-				color = new Color(0,0,0);
-				im.setRGB(i, 1, color.getRGB());
-			} else {
-				color = new Color(0,0,255);
-				im.setRGB(i, 1, color.getRGB());
-			}
-			
-		}
-		
-		String name = "C:/Workspace/#CORRIDOR/Nowy folder";
-		File file = new File(name);
-		File[] files = file.listFiles();
-		name = name + "/test" + files.length +".png";
-		file = new File(name);
-		file.mkdirs();
-		try {
-			ImageIO.write(im, "png", file);
-		} catch (IOException e) {e.printStackTrace();}
 	}
 	
 }

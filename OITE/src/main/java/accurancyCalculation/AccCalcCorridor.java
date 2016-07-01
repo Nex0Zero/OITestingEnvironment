@@ -29,7 +29,7 @@ corridorMasks\SEQ\PART\Corridor_0
 corridor-Kluch\SEQ\PART\corridor
 KluchSolution
 		 */
-		accCalc( new File(args[0]), new File(args[1]), args[2] );
+		accCalc2( new File(args[0]), new File(args[1]), args[2] );
 	}
 	
 	private static void allSolutionAutoFinder(String arg1) {
@@ -111,6 +111,68 @@ KluchSolution
 		result = (double)(result / originalPicFiles.length);
 		
 		System.out.println(name + ": " + AccCalcCorridor.class.getName() + ": result: " + result);
+	}
+	private static void accCalc2(File original, File solution, String name) {
+		String doors = "corridor0";
+		// original = corridorMasks
+		// solution = corridor-Graf
+		double resultFULL = 0;
+		
+		// SEQ
+		File[] fileSEQ = original.listFiles();
+		for(int s = 0; s < fileSEQ.length; s++) {
+			double resultSEQ = 0;
+			
+			// PART
+			File[] filePART = fileSEQ[s].listFiles();
+			for(int p = 0; p < filePART.length; p++) {
+				double result = 0;
+				
+				LOGGER.info("Calc location: " + filePART[p].getPath());
+				
+				// original
+				File originalPicFiles[] = filePART[p].listFiles(new FilenameFilter() {
+
+					@Override
+					public boolean accept(File dir, String name) {
+						return name.startsWith("Corridor_");
+					}
+				});
+				// solution
+				String solutionPath = solution.getAbsolutePath() + "/" + fileSEQ[s].getName() + "/" + filePART[p].getName()
+						+ "/" + doors;
+				File solutionPicFiles[] = new File(solutionPath).listFiles();
+
+				BufferedImage originalImage = null;
+				BufferedImage solutionImage = null;
+				double localResult;
+				File[] origs = originalPicFiles[0].listFiles();
+				for (int i = 0; i < solutionPicFiles.length; i++) {
+					// Calc
+					// Load images
+					try {
+						originalImage = ImageIO.read(origs[i]);
+						solutionImage = ImageIO.read(solutionPicFiles[i]);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+
+					}
+
+					// Compare images  HERE!!!
+					localResult = compareImages(originalImage, solutionImage);
+					// Add to result
+					result += localResult;
+				}
+				// Average
+				result = (double) (result / solutionPicFiles.length);
+				resultSEQ += result;
+			}
+			resultSEQ = resultSEQ / (double) filePART.length;
+			resultFULL += resultSEQ;
+		}
+		resultFULL = resultFULL / fileSEQ.length;
+		
+		System.out.println(name + ": " + AccCalcCorridor.class.getName() + ": result: " + resultFULL);
 	}
 	
 	private static double compareImages(BufferedImage originalImage, BufferedImage solutionImage) {
