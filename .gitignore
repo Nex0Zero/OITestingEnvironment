@@ -16,3 +16,9 @@ OITE/src/main/resources/test.txt
 *.rar
 OITE/corridor/SEQ/PART/abra02.bmp
 *.bmp
+
+# Kluchu
+.project
+.classpath
+.settings
+.idea
