@@ -131,6 +131,7 @@ KluchSolution
 				LOGGER.info("Calc location: " + filePART[p].getPath());
 				
 				// original
+				System.out.println();
 				File originalPicFiles[] = filePART[p].listFiles(new FilenameFilter() {
 
 					@Override
@@ -161,6 +162,7 @@ KluchSolution
 					// Compare images  HERE!!!
 					localResult = compareImages(originalImage, solutionImage);
 					// Add to result
+					System.out.println(localResult);
 					result += localResult;
 				}
 				// Average

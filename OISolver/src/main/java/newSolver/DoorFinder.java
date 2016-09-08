@@ -1,5 +1,8 @@
 package newSolver;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,35 +17,61 @@ public class DoorFinder {
 	public static List<Line> findDoors(List<Line> linesIn) {
 		int size = linesIn.size();
 		
-		List<Line> linesOut = new ArrayList<Line>();
+//		List<Line> linesOut = new ArrayList<Line>();
 		
 		// for each line
 		Line line1, line2;
 		for(int i = 0; i < size; i++) {
 			line1 = linesIn.get(i);
-			linesOut.add(line1);
+//			linesOut.add(line1);
 			
 			// for next lines to compare
 			for(int j = i+1; j < size; j++) {
 				line2 = linesIn.get(j);
-				linesOut.add(line2);
+//				linesOut.add(line2);
 				
-				System.out.println("	" + i +" "+j);
-				System.out.println("	" + line1.length() +" "+line2.length());
+//				System.out.println("	" + i +" "+j);
+//				System.out.println("	" + line1.length() +" "+line2.length());
 				// break if to far
 				if( !distanceBetweenCondition(line1, line2) )					
 					break;
 				
 				if( checkLinesConditions(line1, line2) ) {
-					System.out.println("drzwi "+i+":"+j);
+//					System.out.println("drzwi "+i+":"+j);
 					addLinesToDoor(linesIn, line1, line2);
-					addLinesToDoor(linesOut, line1, line2);
+//					addLinesToDoor(linesOut, line1, line2);
 				}
 			}
 		}
 		
 		return linesIn;
 	}
+	public static BufferedImage findDoorsPic(List<Line> linesIn, BufferedImage imageOut) {
+		int size = linesIn.size();
+
+		// for each line
+		Line line1, line2;
+		for(int i = 0; i < size; i++) {
+			line1 = linesIn.get(i);
+
+			// for next lines to compare
+			for(int j = i+1; j < size; j++) {
+				line2 = linesIn.get(j);
+
+				// break if to far
+				if( !distanceBetweenCondition(line1, line2) )					
+					break;
+				
+				if( checkLinesConditions(line1, line2) )
+					imageOut = drawBlock(imageOut, line1, line2);
+
+			}
+		}
+		
+		return imageOut;
+	}
+	
+	
 	
 	private static boolean checkLinesConditions(Line line1, Line line2) {
 		
@@ -72,14 +101,14 @@ public class DoorFinder {
 		double errorH = 2;
 		
 		double diffPoint = lineLonger.getY1() - lineShorter.getY1();
-		System.out.println("O1: "+diffPoint);
+//		System.out.println("O1: "+diffPoint);
 		if(diffPoint > errorH) // if(Math.abs(diffPoint) > error1)
 			return false;
 		diffPoint = lineLonger.getY2() - lineShorter.getY2();
-		System.out.println("O2: "+diffPoint);
+//		System.out.println("O2: "+diffPoint);
 		if(diffPoint < -errorH) // if(Math.abs(diffPoint) > error1)
 			return false;
-		System.out.println("js");
+//		System.out.println("js");
 		// ::4:: Dlugosc bokow do ich odleglosci
 		if( !distToLeng(distBetweenRatio, diffRatio) )
 			return false;
@@ -121,18 +150,23 @@ public class DoorFinder {
 	}
 
 	private static boolean distToLeng(double dist, double leng){
-		double error = 0.20;
+		double error = 0.2;
+		// 0. 0.20
+		// 1. 0.30
+		// 2. 0.33
 		
 		double distRatio = (distanceToLengthMAX-(distanceToLengthMAX - dist)) / distanceToLengthMAX;
 		double distRatioIn = 1-distRatio;
 		double expectedLeng = minLengMultipler * distRatioIn;
 		
-		System.out.println("	MIN: ~" + 0.0 + " / " + minLengMultipler);
-		System.out.println("	MAX: " + distanceToLengthMAX + " / ~" + 0.00);
-		System.out.println("	NOW: " + dist + " / " + leng);
-		System.out.println("\n	ORO	" + (leng-expectedLeng) +"\n--------------------------");
+//		System.out.println("	MIN: ~" + 0.0 + " / " + minLengMultipler);
+//		System.out.println("	MAX: " + distanceToLengthMAX + " / ~" + 0.00);
+//		System.out.println("	NOW: " + dist + " / " + leng);
+//		System.out.println("\n	ORO	" + (leng-expectedLeng) );
 		
 		double exLengDiff = minLengMultipler * error;
+//		System.out.println("	x: " + leng);
+//		System.out.println("	"+ (expectedLeng-exLengDiff) +" -x- "+ (expectedLeng+exLengDiff) );
 		if( expectedLeng-exLengDiff < leng && leng < expectedLeng+exLengDiff)
 			return true;
 		
@@ -142,8 +176,35 @@ public class DoorFinder {
 		// 0.213 / 0.178
 		
 		
-		System.out.println("FALSE");
+//		System.out.println("FALSE");
+//		System.out.println("--------------------------");
 		return false;
+	}
+	
+	private static BufferedImage drawBlock(BufferedImage imageOut, Line line1, Line line2){
+		Color color = new Color(255,255,255);
+		Graphics2D g2dClear = imageOut.createGraphics();
+		g2dClear.setColor(color);
+		
+		int[] xs = { 
+				(int) line1.getX1(),
+				(int) line1.getX2(),
+				(int) line2.getX2(),
+				(int) line2.getX1()
+		};
+		int[] ys = { 
+				(int) line1.getY1(),
+				(int) line1.getY2(),
+				(int) line2.getY2(),
+				(int) line2.getY1()
+		};
+		int n = 4;
+		
+		
+		
+		g2dClear.fillPolygon(xs, ys, n);
+		
+		return imageOut;
 	}
 	
 }

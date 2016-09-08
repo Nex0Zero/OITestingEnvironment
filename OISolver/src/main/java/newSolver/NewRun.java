@@ -28,6 +28,12 @@ public class NewRun {
 		
 		// Save image
 		ImageProcess.saveImage(LSDModule.path + "LSDtest.png", image);
+		
+		
+		image = ImageProcess.loadImage("src/main/resources/LSD-test/doors.png");
+		image = doIt(image);
+		ImageProcess.saveImage(LSDModule.path + "LSDtest2.png", image);
+		
 	}	
 	private static BufferedImage exampleOne() {
 		BufferedImage image;
@@ -48,7 +54,7 @@ public class NewRun {
 
 		// 3. Line Interpreter - lines management
 		// 	* only Vertical
-		lines = LineInterpreter.sieveOnlyVertical(lines, 6);
+		lines = LineInterpreter.sieveOnlyVertical(lines, 9);
 		//	* only long enough
 		lines = LineInterpreter.sieveOnlyLong(lines);
 		//	* sort left to right
@@ -72,6 +78,33 @@ public class NewRun {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	
+	public static BufferedImage doIt(BufferedImage image) {
+
+		// 2. LSD Module - find lines
+		HashSet<Line> lines = LSDModule.imageToLSDLines(image);
+
+		// 3. Line Interpreter - lines management
+		// 	* only Vertical
+		lines = LineInterpreter.sieveOnlyVertical(lines, 9);
+		//	* only long enough
+		lines = LineInterpreter.sieveOnlyLong(lines);
+		//	* sort left to right
+		List<Line> linesList;
+		linesList = LineInterpreter.sortLeftToRight(lines);
+
+		// 4. Find doors
+		BufferedImage imageOut = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
+		
+		imageOut = DoorFinder.findDoorsPic(linesList, imageOut);
+		
+		// lines to image
+//		image = LSDModule.linesToLSDImage(image, lines);
+		image = LSDModule.linesToLSDImage(image, linesList);
+		
+		return imageOut;
 	}
 	
 }

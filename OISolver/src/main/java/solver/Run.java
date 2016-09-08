@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 import downloaded.CannyEdgeDetector;
+import newSolver.NewRun;
 import others.ArrayData;
 import others.ImageProcess;
 import ownMethods.MeanShift;
@@ -39,7 +40,7 @@ public class Run {
 		
 		// LEARNING
 //		learningM(args, contener);
-		learningP(args, contener2);
+//		learningP(args, contener2);
 
 		// DEPLOY
 //		deploy(args, contener);
@@ -286,7 +287,8 @@ public class Run {
 						
 						// find doors (masks)
 						LOGGER.info("s: "+s +" p:"+p +" i:"+i);
-						doorMasks[0] = contener.runBasic(image);
+						//doorMasks[0] = contener.runBasic(image);
+						doorMasks[0] = NewRun.doIt(image);
 						
 						// save doors
 						for(int j = 0; j < doorMasks.length; j++) {
