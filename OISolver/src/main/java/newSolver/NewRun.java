@@ -24,7 +24,7 @@ public class NewRun {
 		image = exampleTwo();
 		
 		// Open Folder
-		openFolder( LSDModule.path );
+//		openFolder( LSDModule.path );
 		
 		// Save image
 		ImageProcess.saveImage(LSDModule.path + "LSDtest.png", image);
@@ -48,7 +48,7 @@ public class NewRun {
 		
 		// 3. Line Interpreter - lines management
 		// 	* only Vertical
-		lines = LineInterpreter.sieveOnlyVertical(lines);
+		lines = LineInterpreter.sieveOnlyVertical(lines, 6);
 		//	* only long enough
 		lines = LineInterpreter.sieveOnlyLong(lines);
 		//	* sort left to right
@@ -56,7 +56,7 @@ public class NewRun {
 		linesList = LineInterpreter.sortLeftToRight(lines);
 		
 		// 4. Find doors
-		DoorFinder.findDoors(linesList);
+		//linesList = DoorFinder.findDoors(linesList);
 		
 		// lines to image
 //		image = LSDModule.linesToLSDImage(image, lines);

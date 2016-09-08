@@ -2233,7 +2233,7 @@ public class LSD {
 	double[] lsd_scale_region(double[] img, int X, int Y, double scale
 	/* int ** reg_img, int * reg_x, int * reg_y */) {
 		/* LSD parameters */
-		double sigma_scale = 1.0; /** 0.6 - warto zwiekszyc |1.0 |1.5 **/
+		double sigma_scale =0.65; /** 0.6 - warto zwiekszyc |1.0 **/
 								 /* Sigma for Gaussian filter is computed as
 								 * sigma = sigma_scale/scale.
 								 */
@@ -2241,13 +2241,15 @@ public class LSD {
 							 * Bound to the quantization error on the gradient
 							 * norm.
 							 */
-		double ang_th = 22.5; /* Gradient angle tolerance in degrees. */
+		double ang_th = 38.5; /** 22.5 - . . . |38.5 **/
+							  /* Gradient angle tolerance in degrees. */
 		double log_eps = 0.0; /* Detection threshold: -log10(NFA) > log_eps */
-		double density_th = 0.5; /** 0.7 - moze troche mniej |0.5 |0.3 **/
+		double density_th = 0.5; /** 0.7 - moze troche mniej |0.5 **/
 								 /* Minimal density of region points in
 								 * rectangle.
 								 */
-		int n_bins = 1024; /*
+		int n_bins = 1024; /** 1024 - . . . | **/
+							/*
 							 * Number of bins in pseudo-ordering of gradient
 							 * modulus.
 							 */

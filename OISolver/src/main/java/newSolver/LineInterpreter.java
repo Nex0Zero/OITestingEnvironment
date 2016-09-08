@@ -11,14 +11,14 @@ import lsd.Line;
 
 public class LineInterpreter {
 	
-	public static HashSet<Line> sieveOnlyVertical(HashSet<Line> linesIn) {
+	public static HashSet<Line> sieveOnlyVertical(HashSet<Line> linesIn, int diffAngle) {
 		HashSet<Line> linesOut = new HashSet<Line>();
 		
 		double angle;
 		for(Line l: linesIn) {
 			angle = l.angle();
 
-			if(85 <= angle && angle <= 95)
+			if( (90-diffAngle) <= angle && angle <= (90+diffAngle) )
 				linesOut.add(l);
 		}
 		
@@ -45,8 +45,8 @@ public class LineInterpreter {
 			linesOut.add(line);
 		
 		Collections.sort(linesOut, leftToRightComparator);
-		for(Line line : linesOut)
-			System.out.println(line.length());
+//		for(Line line : linesOut)
+//			System.out.println(line.length());
 			
 		return linesOut;
 	}
