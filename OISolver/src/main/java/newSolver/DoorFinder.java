@@ -41,7 +41,7 @@ public class DoorFinder {
 			}
 		}
 		
-		return linesOut;
+		return linesIn;
 	}
 	
 	private static boolean checkLinesConditions(Line line1, Line line2) {

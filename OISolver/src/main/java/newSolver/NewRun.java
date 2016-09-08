@@ -45,7 +45,7 @@ public class NewRun {
 		
 		// 2. LSD Module - find lines
 		HashSet<Line> lines = LSDModule.imageToLSDLines(image);
-		
+
 		// 3. Line Interpreter - lines management
 		// 	* only Vertical
 		lines = LineInterpreter.sieveOnlyVertical(lines, 6);
@@ -54,9 +54,9 @@ public class NewRun {
 		//	* sort left to right
 		List<Line> linesList;
 		linesList = LineInterpreter.sortLeftToRight(lines);
-		
+
 		// 4. Find doors
-		//linesList = DoorFinder.findDoors(linesList);
+		linesList = DoorFinder.findDoors(linesList);
 		
 		// lines to image
 //		image = LSDModule.linesToLSDImage(image, lines);
