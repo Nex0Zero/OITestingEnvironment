@@ -2230,22 +2230,28 @@ public class LSD {
 	/**
 	 * LSD Simple Interface with Scale and Region output.
 	 */
+	
+	public double zm_sigma_scale = 0.65;
+	public double zm_quant = 0.58;
+	public double zm_ang_th = 27;
+	public double zm_density_th = 0.5;
+	
 	double[] lsd_scale_region(double[] img, int X, int Y, double scale
 	/* int ** reg_img, int * reg_x, int * reg_y */) {
 		/* LSD parameters */
-		double sigma_scale = 0.65; /** 0.6 - warto zwiekszyc |0.7 |1.0 **/
+		double sigma_scale = zm_sigma_scale; /** 0.6 - warto zwiekszyc |0.7 |1.0 **/
 								 /* Sigma for Gaussian filter is computed as
 								 * sigma = sigma_scale/scale.
 								 */
-		double quant = 0.58; /** 1.0 - im mniejsza tym wiecej prostych d³ugich lini |0.9 |0.7 |0.55 **/
+		double quant = zm_quant; /** 1.0 - im mniejsza tym wiecej prostych d³ugich lini |0.9 |0.7 |0.55 **/
 							/*
 							 * Bound to the quantization error on the gradient
 							 * norm.
 							 */
-		double ang_th = 27; /** 22.5 - wiecej to wiecej szczegolow  |34.5 |38.5 **/
+		double ang_th = zm_ang_th; /** 22.5 - wiecej to wiecej szczegolow  |34.5 |38.5 **/
 							  /* Gradient angle tolerance in degrees. */
 		double log_eps = 0.0; /* Detection threshold: -log10(NFA) > log_eps */
-		double density_th = 0.5; /** 0.7 - moze troche mniej |0.5 **/
+		double density_th = zm_density_th; /** 0.7 - moze troche mniej |0.5 **/
 								 /* Minimal density of region points in
 								 * rectangle.
 								 */

@@ -25,13 +25,13 @@ public class LineInterpreter {
 		return linesOut;
 	}
 	
-	public static HashSet<Line> sieveOnlyLong(HashSet<Line> linesIn) {
+	public static HashSet<Line> sieveOnlyLong(HashSet<Line> linesIn, int min) {
 		HashSet<Line> linesOut = new HashSet<Line>();
 		
 		double length;
 		for(Line l: linesIn) {
 			length = l.length();
-			if(length > 60)
+			if(length > min)
 				linesOut.add(l);
 		}
 		

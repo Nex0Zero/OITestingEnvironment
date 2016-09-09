@@ -150,7 +150,7 @@ public class DoorFinder {
 	}
 
 	private static boolean distToLeng(double dist, double leng){
-		double error = 0.2;
+		double error = 0.33;
 		// 0. 0.20
 		// 1. 0.30
 		// 2. 0.33

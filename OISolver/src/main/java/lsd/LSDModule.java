@@ -22,25 +22,29 @@ public class LSDModule {
 	public static String file2 = "steam.jpg";
 	public static String file3 = "doors.jpg";
 	
-	public static BufferedImage LSDImageTest() {
-		String filepath = path + file3;
-		
-		return filepathToLSDImage(filepath);
-		
-	}
-	public static BufferedImage filepathToLSDImage(String filepath) {
-		BufferedImage image = ImageProcess.loadImage(filepath);
-		
-		return imageToLSDImage(image);
-		
-	}
-	public static BufferedImage imageToLSDImage(BufferedImage image) {		
-		HashSet<Line> lines = imageToLSDLines(image);
-		
-		return linesToLSDImage(image, lines);
-
-	}
-	public static HashSet<Line> imageToLSDLines(BufferedImage image) {
+//	public static BufferedImage LSDImageTest() {
+//		String filepath = path + file3;
+//		
+//		return filepathToLSDImage(filepath);
+//		
+//	}
+//	public static BufferedImage filepathToLSDImage(String filepath) {
+//		BufferedImage image = ImageProcess.loadImage(filepath);
+//		
+//		return imageToLSDImage(image);
+//		
+//	}
+//	public static BufferedImage imageToLSDImage(BufferedImage image) {		
+//		HashSet<Line> lines = imageToLSDLines(image);
+//		
+//		return linesToLSDImage(image, lines);
+//
+//	}
+	public static HashSet<Line> imageToLSDLines(BufferedImage image, 
+			double zm_sigma_scale,
+			double zm_quant,
+			double zm_ang_th,
+			double zm_density_th) {
 		Graphics2D g2d = image.createGraphics();
 		int x = image.getWidth();
 		int y = image.getHeight();
@@ -62,8 +66,14 @@ public class LSDModule {
 			arr2[c++] = level;
 		}
 
+		// LSD _____________________
 		LSD lsd = new LSD();
-
+		lsd.zm_sigma_scale = zm_sigma_scale;
+		lsd.zm_quant = zm_quant;
+		lsd.zm_ang_th = zm_ang_th;
+		lsd.zm_density_th = zm_density_th;
+		
+		
 		double [] out = lsd.lsd(arr2,x,y);
 
 		for(int i = 0; i < lsd.n_out; i++) {

@@ -259,6 +259,7 @@ public class Run {
 	}
 	
 	private static void deployP(String[] args, SOMContener2 contener) {
+		
 		String path = args[2];
 		
 		File pathFile = new File( path );
@@ -288,7 +289,9 @@ public class Run {
 						// find doors (masks)
 						LOGGER.info("s: "+s +" p:"+p +" i:"+i);
 						//doorMasks[0] = contener.runBasic(image);
-						doorMasks[0] = NewRun.doIt(image);
+//						doorMasks[0] = NewRun.doItDoors(image);
+						doorMasks[0] = NewRun.doItCorridor(image);
+						
 						
 						// save doors
 						for(int j = 0; j < doorMasks.length; j++) {

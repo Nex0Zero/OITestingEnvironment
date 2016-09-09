@@ -21,7 +21,7 @@ public class NewRun {
 		
 		BufferedImage image;
 	
-		image = exampleTwo();
+		image = exampleThree();
 		
 		// Open Folder
 //		openFolder( LSDModule.path );
@@ -29,20 +29,15 @@ public class NewRun {
 		// Save image
 		ImageProcess.saveImage(LSDModule.path + "LSDtest.png", image);
 		
-		
-		image = ImageProcess.loadImage("src/main/resources/LSD-test/doors.png");
-		image = doIt(image);
-		ImageProcess.saveImage(LSDModule.path + "LSDtest2.png", image);
-		
 	}	
-	private static BufferedImage exampleOne() {
-		BufferedImage image;
-			
-		// LSD for image
-		image = LSDModule.LSDImageTest();
-
-		return image;
-	}
+//	private static BufferedImage exampleOne() {
+//		BufferedImage image;
+//			
+//		// LSD for image
+//		image = LSDModule.LSDImageTest();
+//
+//		return image;
+//	}
 	private static BufferedImage exampleTwo() {
 		BufferedImage image;
 	
@@ -50,23 +45,62 @@ public class NewRun {
 		image = ImageProcess.loadImage("src/main/resources/LSD-test/doors.png");
 		
 		// 2. LSD Module - find lines
-		HashSet<Line> lines = LSDModule.imageToLSDLines(image);
+		double zm_sigma_scale = 0.6;
+		double zm_quant = 2.0;
+		double zm_ang_th = 22.5;
+		double zm_density_th = 0.7;	
+		HashSet<Line> lines = LSDModule.imageToLSDLines(image,
+				zm_sigma_scale, zm_quant, zm_ang_th, zm_density_th);
 
 		// 3. Line Interpreter - lines management
 		// 	* only Vertical
 		lines = LineInterpreter.sieveOnlyVertical(lines, 9);
 		//	* only long enough
-		lines = LineInterpreter.sieveOnlyLong(lines);
+		lines = LineInterpreter.sieveOnlyLong(lines, 50);
 		//	* sort left to right
 		List<Line> linesList;
 		linesList = LineInterpreter.sortLeftToRight(lines);
 
 		// 4. Find doors
-		linesList = DoorFinder.findDoors(linesList);
+//		linesList = DoorFinder.findDoors(linesList);
 		
 		// lines to image
 //		image = LSDModule.linesToLSDImage(image, lines);
 		image = LSDModule.linesToLSDImage(image, linesList);
+		
+		return image;
+	}
+	private static BufferedImage exampleThree() {
+		BufferedImage image;
+	
+		// 1. Load image from file
+		image = ImageProcess.loadImage("src/main/resources/LSD-test/doors.png");
+		
+		// 2. LSD Module - find lines
+		double zm_sigma_scale = 0.6;
+		double zm_quant = 2.0;
+		double zm_ang_th = 22.5;
+		double zm_density_th = 0.7;	
+		HashSet<Line> lines = LSDModule.imageToLSDLines(image,
+				zm_sigma_scale, zm_quant, zm_ang_th, zm_density_th);
+
+		// 3. Line Interpreter - lines management
+		// 	* only Vertical
+		lines = LineInterpreter.sieveOnlyVertical(lines, 5);
+		//	* only long enough
+		lines = LineInterpreter.sieveOnlyLong(lines, 50);
+		//	* sort left to right
+		List<Line> linesList;
+		linesList = LineInterpreter.sortLeftToRight(lines);
+
+		// 4. Find doors
+//		linesList = DoorFinder.findDoors(linesList);
+		image = CorridorFinder.findCorridor(linesList, image);
+		
+		
+		// lines to image
+//		image = LSDModule.linesToLSDImage(image, lines);
+//		image = LSDModule.linesToLSDImage(image, linesList);
 		
 		return image;
 	}
@@ -81,16 +115,21 @@ public class NewRun {
 	}
 	
 	
-	public static BufferedImage doIt(BufferedImage image) {
+	public static BufferedImage doItDoors(BufferedImage image) {
 
 		// 2. LSD Module - find lines
-		HashSet<Line> lines = LSDModule.imageToLSDLines(image);
+		double zm_sigma_scale = 0.65;
+		double zm_quant = 0.58;
+		double zm_ang_th = 27;
+		double zm_density_th = 0.5;	
+		HashSet<Line> lines = LSDModule.imageToLSDLines(image,
+				zm_sigma_scale, zm_quant, zm_ang_th, zm_density_th);
 
 		// 3. Line Interpreter - lines management
 		// 	* only Vertical
 		lines = LineInterpreter.sieveOnlyVertical(lines, 9);
 		//	* only long enough
-		lines = LineInterpreter.sieveOnlyLong(lines);
+		lines = LineInterpreter.sieveOnlyLong(lines, 60);
 		//	* sort left to right
 		List<Line> linesList;
 		linesList = LineInterpreter.sortLeftToRight(lines);
@@ -105,6 +144,31 @@ public class NewRun {
 		image = LSDModule.linesToLSDImage(image, linesList);
 		
 		return imageOut;
+	}
+	public static BufferedImage doItCorridor(BufferedImage image) {
+
+		// 2. LSD Module - find lines
+		double zm_sigma_scale = 0.6;
+		double zm_quant = 2.0;
+		double zm_ang_th = 22.5;
+		double zm_density_th = 0.7;	
+		HashSet<Line> lines = LSDModule.imageToLSDLines(image,
+				zm_sigma_scale, zm_quant, zm_ang_th, zm_density_th);
+
+		// 3. Line Interpreter - lines management
+		// 	* only Vertical
+		lines = LineInterpreter.sieveOnlyVertical(lines, 9);
+		//	* only long enough
+		lines = LineInterpreter.sieveOnlyLong(lines, 50);
+		//	* sort left to right
+		List<Line> linesList;
+		linesList = LineInterpreter.sortLeftToRight(lines);
+
+		// 4. Find corridor
+		image = CorridorFinder.findCorridor(linesList, image);
+
+		
+				return image;
 	}
 	
 }
