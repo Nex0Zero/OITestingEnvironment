@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
+import VPC.Point2DDouble;
 import lsd.LineLSD;
 
 public class LineInterpreter {
@@ -76,6 +77,22 @@ public class LineInterpreter {
 		
 	};
 	
-	
+	public static HashSet<LineLSD> linesToPoint(HashSet<LineLSD> linesIn, Point2DDouble bestPoint, double maxDistance) {
+		HashSet<LineLSD> linesOut = new HashSet<LineLSD>();
+		
+		double distance;
+		for(LineLSD line: linesIn) {
+			distance = Distance.distBetweenPointAndLine(
+					(float)bestPoint.x, (float)bestPoint.y, 
+					(float)line.getX1(), (float)line.getY1(), 
+					(float)line.getX2(), (float)line.getY2());
+			
+			if(distance < maxDistance)
+				linesOut.add(line);
+		}
+		
+		System.out.println("linestopoint:" + linesOut.size());
+		return linesOut;
+	}
 	
 }

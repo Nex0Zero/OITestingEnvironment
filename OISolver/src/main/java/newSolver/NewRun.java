@@ -63,8 +63,10 @@ public class NewRun {
 				LSDModule.linesToLSDImage(image, linesF) );
 		
 		linesF = LineInterpreter.allExceptVerAndHor(linesF, 9, 9);
+		ImageProcess.saveImage(LSDModule.path + "02- No VerHor.png", 
+				LSDModule.linesToLSDImage(image, linesF) );
 		linesF = LineInterpreter.sieveOnlyLong(linesF, 40);
-		ImageProcess.saveImage(LSDModule.path + "02- No VerHor and short.png", 
+		ImageProcess.saveImage(LSDModule.path + "03- No VerHor and short.png", 
 				LSDModule.linesToLSDImage(image, linesF) );
 		
 		// X. Vanishing Point
@@ -75,9 +77,15 @@ public class NewRun {
 		Vector ignoreVec = new Vector<Line>();
 		
 		VanishingPointsCalculator.getVanishingPoint(iter, lineVec, bestPoint, supportVec, ignoreVec);
-		System.out.println("	x: " + bestPoint.x + " y: "+bestPoint.y);
 		
+		//-------------------------
 		
+		HashSet<LineLSD> linesToPoint = (HashSet<LineLSD>) lineLSDs.clone();
+		linesToPoint = LineInterpreter.linesToPoint(linesToPoint, bestPoint, 20);
+		BufferedImage imageTemp = LSDModule.linesToLSDImage(image, linesToPoint);
+		ImageProcess.saveImage(LSDModule.path + "04- Lines To Point.png", 
+				imageTemp );
+	
 		//-------------------------
 		
 		
@@ -97,8 +105,8 @@ public class NewRun {
 		image = LSDModule.linesToLSDImage(image, lineLSDs);
 //		image = LSDModule.linesToLSDImage(image, linesList);
 		
-		BufferedImage imageTemp = drawPoint(image, bestPoint);
-		ImageProcess.saveImage(LSDModule.path + "03- With Vanishing Point.png", 
+		imageTemp = drawPoint(image, bestPoint);
+		ImageProcess.saveImage(LSDModule.path + "05- With Vanishing Point.png", 
 				imageTemp );
 		
 		return image;
@@ -199,7 +207,7 @@ public class NewRun {
 		
 		// lines to image
 //		image = LSDModule.linesToLSDImage(image, lines);
-		image = LSDModule.linesToLSDImage(image, linesList);
+//		image = LSDModule.linesToLSDImage(image, linesList);
 		
 		return imageOut;
 	}
@@ -230,18 +238,3 @@ public class NewRun {
 	}
 	
 }
-
-/**
- * SZUKANIE DRZWI
- * odleg³oœci y miêdzy parami punktów lini (dó³/góra), a ich ró¿nice d³ugoœci.
- * albo
- * k¹ty punktów (osobno górne dolne w parach)
- * NOTKA: sprawdzac dolne.
- * 
- * PAROWNIE LINII
- * - posortowac od lewej do prawej
- * - obliczyc d³ugoœc lewej i dac jej max odl do nastepnej
- * - iterowac
- * - jak przeskoczy to wziasc kolejna linie, i znow obliczyc dlogosc i max odleglosc
- * - iterowac od aktualnaLinia+1
- **/
