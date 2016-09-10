@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import VPC.Point2DDouble;
 import lsd.LineLSD;
 
 public class DoorFinder {
@@ -71,7 +72,46 @@ public class DoorFinder {
 		return imageOut;
 	}
 	
-	
+	public static BufferedImage findDoorsUsingPoint(List<LineLSD> linesToPoint, List<LineLSD> linesVert, Point2DDouble center,
+			BufferedImage image) {
+		
+		double errorDiffX = 12;
+		BufferedImage imageOut = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());	
+		
+		LineLSD ltp, lv;
+		double dist;
+		for(int i = 0; i < linesToPoint.size(); i++) {
+			ltp = linesToPoint.get(i);
+
+			for(int j = 0; j < linesVert.size(); j++) {
+				lv = linesVert.get(j);
+				
+				dist = Distance.distBetween((float)lv.getX1(), (float)lv.getY1(), 
+						(float)ltp.getX1(), (float)ltp.getY1());
+				if(-errorDiffX <= dist && dist <= errorDiffX) {
+					drawLine(imageOut, ltp);
+					drawLine(imageOut, lv);
+					System.out.println("Uno");
+					
+					areLinesHaveCorner(ltp.getX2(), ltp.getY2(), lv, center, imageOut);
+				}
+				
+				dist = Distance.distBetween((float)lv.getX1(), (float)lv.getY1(), 
+						(float)ltp.getX2(), (float)ltp.getY2());
+				if(-errorDiffX <= dist && dist <= errorDiffX) {
+					drawLine(imageOut, ltp);
+					drawLine(imageOut, lv);
+					System.out.println("Duos");
+					
+					areLinesHaveCorner(ltp.getX1(), ltp.getY1(), lv, center, imageOut);
+				}
+				
+			}
+		}
+		
+		
+		return imageOut;
+	}
 	
 	private static boolean checkLinesConditions(LineLSD line1, LineLSD line2) {
 		
@@ -205,6 +245,47 @@ public class DoorFinder {
 		g2dClear.fillPolygon(xs, ys, n);
 		
 		return imageOut;
+	}
+	private static BufferedImage drawLine(BufferedImage imageOut, LineLSD line1) {
+		Color color = new Color(255,0,0);
+		Graphics2D g2dClear = imageOut.createGraphics();
+		g2dClear.setColor(color);
+		
+		g2dClear.drawLine((int)line1.getX1(), (int)line1.getY1(), 
+				(int)line1.getX2(), (int)line1.getY2());
+		
+		return imageOut;
+	}
+	
+
+
+	private static void areLinesHaveCorner(double x, double y, LineLSD vert, 
+			Point2DDouble center, BufferedImage image) {
+		double errorLen = 0.2;
+		
+		double yBottom = findY(x, center, vert.getX2(), vert.getY2());
+		double lineLen = yBottom - y;
+		
+		double vertLen = vert.length();
+
+		double diffRatio;
+		if(lineLen >= vertLen) {
+			diffRatio = ( lineLen - vertLen ) / lineLen;
+		} else {
+			diffRatio = ( vertLen - lineLen ) / vertLen;
+		}
+		
+		if( diffRatio > (minLengMultipler*(1+errorLen)) )
+			return;
+		
+		System.out.println("TRES==========");
+		drawBlock(image, vert, new LineLSD(x, y, x, yBottom));
+		
+	}
+	private static double findY(double x, Point2DDouble center, double x1, double y1) {
+		
+		return ( (y1-center.getY()) / (x1-center.getX()) ) * ( x - center.getX() ) + center.getY();
+
 	}
 	
 }

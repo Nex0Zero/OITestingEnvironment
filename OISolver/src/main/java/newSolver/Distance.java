@@ -24,7 +24,7 @@ public class Distance {
 	    return AD;
 	}
 
-	private static float distBetween(float x, float y, float x1, float y1) {
+	public static float distBetween(float x, float y, float x1, float y1) {
 	    float xx = x1 - x;
 	    float yy = y1 - y;
 

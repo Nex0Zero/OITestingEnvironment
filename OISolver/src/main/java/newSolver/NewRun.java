@@ -51,10 +51,10 @@ public class NewRun {
 		image = ImageProcess.loadImage("src/main/resources/LSD-test/doors.png");
 		
 		// 2. LSD Module - find lines
-		double zm_sigma_scale = 0.65;
-		double zm_quant = 0.58;
-		double zm_ang_th = 27;
-		double zm_density_th = 0.3;	
+		double zm_sigma_scale = 1.0; // 0.65
+		double zm_quant = 0.58; // 0.58
+		double zm_ang_th = 27;	// 27
+		double zm_density_th = 0.3; // 0.3	
 		HashSet<LineLSD> lineLSDs = LSDModule.imageToLSDLines(image,
 				zm_sigma_scale, zm_quant, zm_ang_th, zm_density_th);
 
@@ -78,26 +78,40 @@ public class NewRun {
 		
 		VanishingPointsCalculator.getVanishingPoint(iter, lineVec, bestPoint, supportVec, ignoreVec);
 		
-		//-------------------------
-		
+		// X. Lines to point
 		HashSet<LineLSD> linesToPoint = (HashSet<LineLSD>) lineLSDs.clone();
-		linesToPoint = LineInterpreter.linesToPoint(linesToPoint, bestPoint, 20);
+		linesToPoint = LineInterpreter.linesToPoint(linesToPoint, bestPoint, 40);
+		
+		linesToPoint = LineInterpreter.allExceptVerAndHor(linesToPoint, 9, 9);
+		
 		BufferedImage imageTemp = LSDModule.linesToLSDImage(image, linesToPoint);
 		ImageProcess.saveImage(LSDModule.path + "04- Lines To Point.png", 
 				imageTemp );
-	
+		//	* sort
+		List<LineLSD> linesToPointList;
+		linesToPointList = LineInterpreter.sortLeftToRight(linesToPoint);
+		
+		// X. Vertical lines
+		HashSet<LineLSD> linesVert = (HashSet<LineLSD>) lineLSDs.clone();
+		linesVert = LineInterpreter.sieveOnlyVertical(linesVert, 9);
+		//	* only long enough
+		linesVert = LineInterpreter.sieveOnlyLong(linesVert, 50);
+		
+		imageTemp = LSDModule.linesToLSDImage(image, linesVert);
+		ImageProcess.saveImage(LSDModule.path + "05- Vertical lines.png", 
+				imageTemp );
+		
+		//	* sort left to right
+		List<LineLSD> linesList;
+		linesList = LineInterpreter.sortLeftToRight(linesVert);
+		
+		imageTemp = DoorFinder.findDoorsUsingPoint(linesToPointList, linesList, bestPoint, image);
+		ImageProcess.saveImage(LSDModule.path + "06- CORNERS.png", 
+				imageTemp );
+
 		//-------------------------
 		
 		
-		// 3. Line Interpreter - lines management
-		// 	* only Vertical
-//		lineLSDs = LineInterpreter.sieveOnlyVertical(lineLSDs, 9);
-		//	* only long enough
-//		lineLSDs = LineInterpreter.sieveOnlyLong(lineLSDs, 50);
-		//	* sort left to right
-//		List<LineLSD> linesList;
-//		linesList = LineInterpreter.sortLeftToRight(lineLSDs);
-
 		// 4. Find doors
 //		linesList = DoorFinder.findDoors(linesList);
 		
@@ -106,7 +120,7 @@ public class NewRun {
 //		image = LSDModule.linesToLSDImage(image, linesList);
 		
 		imageTemp = drawPoint(image, bestPoint);
-		ImageProcess.saveImage(LSDModule.path + "05- With Vanishing Point.png", 
+		ImageProcess.saveImage(LSDModule.path + "07- With Vanishing Point.png", 
 				imageTemp );
 		
 		return image;
@@ -238,3 +252,26 @@ public class NewRun {
 	}
 	
 }
+
+/**
+ * Punkt glebii:
+ * 	Punkty do srodka:
+ * 		wywalic bliskie pionu
+ * 		posortowac linie od lewej po lewym punkcie
+ * 		oddzielic dolne od gornych
+ * 		
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
