@@ -24,15 +24,15 @@ public class LineInterpreter {
 		
 		return linesOut;
 	}
-	public static HashSet<LineLSD> allExceptVerAndHor(HashSet<LineLSD> linesIn, int diffAngle) {
+	public static HashSet<LineLSD> allExceptVerAndHor(HashSet<LineLSD> linesIn, int diffAngle1, int diffAngle2) {
 		HashSet<LineLSD> linesOut = new HashSet<LineLSD>();
 		
 		double angle;
 		for(LineLSD l: linesIn) {
 			angle = l.angle();
 
-			if( (90+diffAngle) <= angle && angle <= (180-diffAngle) 
-					|| (0+diffAngle) <= angle && angle <= (90-diffAngle) )
+			if( (90+diffAngle1) <= angle && angle <= (180-diffAngle2) 
+					|| (0+diffAngle2) <= angle && angle <= (90-diffAngle1) )
 				linesOut.add(l);
 		}
 		

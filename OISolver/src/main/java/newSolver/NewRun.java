@@ -54,7 +54,7 @@ public class NewRun {
 		double zm_sigma_scale = 0.65;
 		double zm_quant = 0.58;
 		double zm_ang_th = 27;
-		double zm_density_th = 0.5;	
+		double zm_density_th = 0.3;	
 		HashSet<LineLSD> lineLSDs = LSDModule.imageToLSDLines(image,
 				zm_sigma_scale, zm_quant, zm_ang_th, zm_density_th);
 
@@ -62,8 +62,8 @@ public class NewRun {
 		ImageProcess.saveImage(LSDModule.path + "01- All lines.png", 
 				LSDModule.linesToLSDImage(image, linesF) );
 		
-		linesF = LineInterpreter.allExceptVerAndHor(linesF, 9);
-		linesF = LineInterpreter.sieveOnlyLong(linesF, 50);
+		linesF = LineInterpreter.allExceptVerAndHor(linesF, 9, 9);
+		linesF = LineInterpreter.sieveOnlyLong(linesF, 40);
 		ImageProcess.saveImage(LSDModule.path + "02- No VerHor and short.png", 
 				LSDModule.linesToLSDImage(image, linesF) );
 		
