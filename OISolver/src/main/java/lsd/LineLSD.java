@@ -18,7 +18,7 @@
 */
 package lsd;
 
-public class Line {
+public class LineLSD {
 	double x1;
 	double y1;
 	double x2;
@@ -65,8 +65,8 @@ public class Line {
 	}
 
 	public boolean equals(Object l) {
-		if (l instanceof Line) {
-			Line tmp = (Line) l;
+		if (l instanceof LineLSD) {
+			LineLSD tmp = (LineLSD) l;
 
 			return (tmp.x1 == this.x1 && tmp.y1 == this.y1 && tmp.x2 == this.x2 && tmp.y2 == this.y2);
 
@@ -107,7 +107,7 @@ public class Line {
 		return (y2+y1)/2;
 	}
 	
-	public Line(double x1, double y1, double x2, double y2) {
+	public LineLSD(double x1, double y1, double x2, double y2) {
 		if (y1 < y2) {
 			this.x1 = x1;
 			this.y1 = y1;

@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import lsd.Line;
+import lsd.LineLSD;
 
 public class DoorFinder {
 	
@@ -14,13 +14,13 @@ public class DoorFinder {
 	private static double minLengMultipler = 0.25;
 	private static double diffY = 40;
 	
-	public static List<Line> findDoors(List<Line> linesIn) {
+	public static List<LineLSD> findDoors(List<LineLSD> linesIn) {
 		int size = linesIn.size();
 		
 //		List<Line> linesOut = new ArrayList<Line>();
 		
 		// for each line
-		Line line1, line2;
+		LineLSD line1, line2;
 		for(int i = 0; i < size; i++) {
 			line1 = linesIn.get(i);
 //			linesOut.add(line1);
@@ -46,11 +46,11 @@ public class DoorFinder {
 		
 		return linesIn;
 	}
-	public static BufferedImage findDoorsPic(List<Line> linesIn, BufferedImage imageOut) {
+	public static BufferedImage findDoorsPic(List<LineLSD> linesIn, BufferedImage imageOut) {
 		int size = linesIn.size();
 
 		// for each line
-		Line line1, line2;
+		LineLSD line1, line2;
 		for(int i = 0; i < size; i++) {
 			line1 = linesIn.get(i);
 
@@ -73,10 +73,10 @@ public class DoorFinder {
 	
 	
 	
-	private static boolean checkLinesConditions(Line line1, Line line2) {
+	private static boolean checkLinesConditions(LineLSD line1, LineLSD line2) {
 		
 		// Find longer line
-		Line lineLonger, lineShorter;
+		LineLSD lineLonger, lineShorter;
 		if( line2.length() >= line1.length() ) {
 			lineLonger = line2;
 			lineShorter = line1;
@@ -116,9 +116,9 @@ public class DoorFinder {
 		
 		return true;
 	}
-	private static boolean distanceBetweenCondition(Line line1, Line line2) {
+	private static boolean distanceBetweenCondition(LineLSD line1, LineLSD line2) {
 		// Find longer line
-		Line lineLonger, lineShorter;
+		LineLSD lineLonger, lineShorter;
 		if( line2.length() >= line1.length() ) {
 			lineLonger = line2;
 			lineShorter = line1;
@@ -138,12 +138,12 @@ public class DoorFinder {
 		
 	}
 	
-	private static void addLinesToDoor(List<Line> lines, Line line1, Line line2) {
-		lines.add(new Line(
+	private static void addLinesToDoor(List<LineLSD> lineLSDs, LineLSD line1, LineLSD line2) {
+		lineLSDs.add(new LineLSD(
 				line1.getX1(), line1.getY1(),
 				line2.getX1(), line2.getY1()
 				) );
-		lines.add(new Line(
+		lineLSDs.add(new LineLSD(
 				line1.getX2(), line1.getY2(),
 				line2.getX2(), line2.getY2()
 				) );
@@ -181,7 +181,7 @@ public class DoorFinder {
 		return false;
 	}
 	
-	private static BufferedImage drawBlock(BufferedImage imageOut, Line line1, Line line2){
+	private static BufferedImage drawBlock(BufferedImage imageOut, LineLSD line1, LineLSD line2){
 		Color color = new Color(255,255,255);
 		Graphics2D g2dClear = imageOut.createGraphics();
 		g2dClear.setColor(color);

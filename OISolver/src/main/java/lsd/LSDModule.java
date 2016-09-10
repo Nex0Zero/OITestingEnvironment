@@ -40,7 +40,7 @@ public class LSDModule {
 //		return linesToLSDImage(image, lines);
 //
 //	}
-	public static HashSet<Line> imageToLSDLines(BufferedImage image, 
+	public static HashSet<LineLSD> imageToLSDLines(BufferedImage image, 
 			double zm_sigma_scale,
 			double zm_quant,
 			double zm_ang_th,
@@ -49,7 +49,7 @@ public class LSDModule {
 		int x = image.getWidth();
 		int y = image.getHeight();
 		
-		HashSet<Line> lines = new HashSet<Line>();
+		HashSet<LineLSD> lineLSDs = new HashSet<LineLSD>();
 
 
 		double [] arr = image.getData().getPixels(0,0,x,y,new double[x*y*3]);
@@ -79,26 +79,26 @@ public class LSDModule {
 		for(int i = 0; i < lsd.n_out; i++) {
 			for (int j = 0; j < 7; j++)
 			
-			lines.add(new Line(out[7 * i + 0], out[7 * i + 1],
+			lineLSDs.add(new LineLSD(out[7 * i + 0], out[7 * i + 1],
 					out[7 * i + 2], out[7 * i + 3]));
 
 		}
 		
-		return lines;
+		return lineLSDs;
 	}
-	public static BufferedImage linesToLSDImage(BufferedImage image, HashSet<Line> lines) {
+	public static BufferedImage linesToLSDImage(BufferedImage image, HashSet<LineLSD> lineLSDs) {
 		int x = image.getWidth();
 		int y = image.getHeight();
 		BufferedImage myPictureClear = new BufferedImage(x, y, image.getType());
 		Graphics2D g2dClear = myPictureClear.createGraphics();
-		for ( Line l : lines ) {
+		for ( LineLSD l : lineLSDs ) {
 			g2dClear.drawLine((int)l.x1,(int)l.y1,(int)l.x2,(int)l.y2);
 		}
 		
 		return myPictureClear;
 		
 	}
-	public static BufferedImage linesToLSDImage(BufferedImage image, List<Line> lines) {
+	public static BufferedImage linesToLSDImage(BufferedImage image, List<LineLSD> lineLSDs) {
 		int x = image.getWidth();
 		int y = image.getHeight();
 		BufferedImage myPictureClear = new BufferedImage(x, y, image.getType());
@@ -106,7 +106,7 @@ public class LSDModule {
 		
 		int r = 255, g = 255, b = 255;
 		Color color = new Color(255,255,255);
-		for ( Line l : lines ) {
+		for ( LineLSD l : lineLSDs ) {
 			
 			g2dClear.setColor(color);
 			g2dClear.drawLine((int)l.x1,(int)l.y1,(int)l.x2,(int)l.y2);

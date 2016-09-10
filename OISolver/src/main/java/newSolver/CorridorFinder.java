@@ -6,11 +6,11 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import lsd.Line;
+import lsd.LineLSD;
 
 public class CorridorFinder {
 
-	public static BufferedImage findCorridor(List<Line> linesIn, BufferedImage image) {
+	public static BufferedImage findCorridor(List<LineLSD> linesIn, BufferedImage image) {
 		int gSize = 5;
 		double x,y, oldX,oldY;
 		

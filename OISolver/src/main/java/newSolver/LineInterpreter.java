@@ -7,15 +7,15 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
-import lsd.Line;
+import lsd.LineLSD;
 
 public class LineInterpreter {
 	
-	public static HashSet<Line> sieveOnlyVertical(HashSet<Line> linesIn, int diffAngle) {
-		HashSet<Line> linesOut = new HashSet<Line>();
+	public static HashSet<LineLSD> sieveOnlyVertical(HashSet<LineLSD> linesIn, int diffAngle) {
+		HashSet<LineLSD> linesOut = new HashSet<LineLSD>();
 		
 		double angle;
-		for(Line l: linesIn) {
+		for(LineLSD l: linesIn) {
 			angle = l.angle();
 
 			if( (90-diffAngle) <= angle && angle <= (90+diffAngle) )
@@ -24,12 +24,26 @@ public class LineInterpreter {
 		
 		return linesOut;
 	}
+	public static HashSet<LineLSD> allExceptVerAndHor(HashSet<LineLSD> linesIn, int diffAngle) {
+		HashSet<LineLSD> linesOut = new HashSet<LineLSD>();
+		
+		double angle;
+		for(LineLSD l: linesIn) {
+			angle = l.angle();
+
+			if( (90+diffAngle) <= angle && angle <= (180-diffAngle) 
+					|| (0+diffAngle) <= angle && angle <= (90-diffAngle) )
+				linesOut.add(l);
+		}
+		
+		return linesOut;
+	}
 	
-	public static HashSet<Line> sieveOnlyLong(HashSet<Line> linesIn, int min) {
-		HashSet<Line> linesOut = new HashSet<Line>();
+	public static HashSet<LineLSD> sieveOnlyLong(HashSet<LineLSD> linesIn, int min) {
+		HashSet<LineLSD> linesOut = new HashSet<LineLSD>();
 		
 		double length;
-		for(Line l: linesIn) {
+		for(LineLSD l: linesIn) {
 			length = l.length();
 			if(length > min)
 				linesOut.add(l);
@@ -38,11 +52,11 @@ public class LineInterpreter {
 		return linesOut;
 	}
 	
-	public static List<Line> sortLeftToRight(HashSet<Line> linesIn) {
-		List<Line> linesOut = new ArrayList<Line>();
+	public static List<LineLSD> sortLeftToRight(HashSet<LineLSD> linesIn) {
+		List<LineLSD> linesOut = new ArrayList<LineLSD>();
 		
-		for(Line line : linesIn)
-			linesOut.add(line);
+		for(LineLSD lineLSD : linesIn)
+			linesOut.add(lineLSD);
 		
 		Collections.sort(linesOut, leftToRightComparator);
 //		for(Line line : linesOut)
@@ -50,9 +64,9 @@ public class LineInterpreter {
 			
 		return linesOut;
 	}
-	public static Comparator<Line> leftToRightComparator = new Comparator<Line>() {
+	public static Comparator<LineLSD> leftToRightComparator = new Comparator<LineLSD>() {
 
-		public int compare(Line line1, Line line2) {
+		public int compare(LineLSD line1, LineLSD line2) {
 			
 			Double lineY1 = line1.getCenterX();
 			Double lineY2 = line2.getCenterX();

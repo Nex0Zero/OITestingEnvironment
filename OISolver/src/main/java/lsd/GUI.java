@@ -55,7 +55,7 @@ public class GUI extends JFrame {
 			BufferedImage myPictureClear = new BufferedImage(x, y, myPicture.getType());
 			Graphics2D g2dClear = myPictureClear.createGraphics();
 			
-			HashSet<Line> lines = new HashSet<Line>();
+			HashSet<LineLSD> lineLSDs = new HashSet<LineLSD>();
 
 
 			double [] arr = myPicture.getData().getPixels(0,0,x,y,new double[x*y*3]);
@@ -79,12 +79,12 @@ public class GUI extends JFrame {
 			for(int i = 0; i < lsd.n_out; i++) {
 				for (int j = 0; j < 7; j++)
 				
-				lines.add(new Line(out[7 * i + 0], out[7 * i + 1],
+				lineLSDs.add(new LineLSD(out[7 * i + 0], out[7 * i + 1],
 						out[7 * i + 2], out[7 * i + 3]));
 
 			}
 			
-			for ( Line l : lines) {
+			for ( LineLSD l : lineLSDs) {
 				g2dClear.drawLine((int)l.x1,(int)l.y1,(int)l.x2,(int)l.y2);
 			}
 
