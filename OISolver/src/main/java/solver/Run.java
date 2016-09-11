@@ -260,10 +260,11 @@ public class Run {
 	
 	private static void deployP(String[] args, SOMContener2 contener) {
 		
-		String path = args[2];
+		String path = args[0];
 		
 		File pathFile = new File( path );
-		
+		File pathFileSol = new File( path );
+
 		// SEQ
 		File[] fileSEQ = pathFile.listFiles();
 		for(int s = 0; s < fileSEQ.length; s++) {
@@ -271,7 +272,7 @@ public class Run {
 			// PART
 			File[] filePART = fileSEQ[s].listFiles();
 			for(int p = 0; p < filePART.length; p++) {
-				String savePath = path + "-Graf/" + fileSEQ[s].getName() + "/" + filePART[p].getName() + "/";
+				String savePath = pathFileSol.getParent() +"/GKSolution/" + fileSEQ[s].getName() + "/" + filePART[p].getName() + "/";
 				LOGGER.info("Location for generated masks: " + savePath);
 			
 				// Picture
@@ -281,7 +282,8 @@ public class Run {
 					BufferedImage image = null;
 			
 					BufferedImage[] doorMasks = new BufferedImage[1];
-			
+					BufferedImage corridorMask;
+					
 					try {
 						// read image
 						image = ImageIO.read( filePicture[i] );
@@ -289,17 +291,23 @@ public class Run {
 						// find doors (masks)
 						LOGGER.info("s: "+s +" p:"+p +" i:"+i);
 						//doorMasks[0] = contener.runBasic(image);
-//						doorMasks[0] = NewRun.doItDoors(image);
-						doorMasks[0] = NewRun.doItCorridor(image);
+						doorMasks[0] = NewRun.doItDoorsFull(image);
+						corridorMask = NewRun.doItCorridor(image);
 						
 						
 						// save doors
 						for(int j = 0; j < doorMasks.length; j++) {
 							String doorName = "corridor-pic" + i;
-							File outputFile = new File(savePath + "corridor" + j + "/" + doorName + ".png");
+							File outputFile = new File(savePath + "door" + j + "/" + doorName + ".png");
 							outputFile.mkdirs();
 							ImageIO.write(doorMasks[j], "png", outputFile);
 						}
+						// save corridor
+						String corridorName = "corridor-pic" + i;	
+						File outputFile = new File(savePath + "corridor/" + corridorName + ".png");
+						outputFile.mkdirs();
+						ImageIO.write(corridorMask, "png", outputFile);
+						
 						
 					} catch (IOException e) { e.printStackTrace(); }
 				}

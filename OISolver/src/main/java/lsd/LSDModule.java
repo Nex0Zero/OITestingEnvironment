@@ -56,7 +56,7 @@ public class LSDModule {
 
 		double [] arr2 = new double[x*y];
 	
-		System.out.println("	pixels : " + arr.length);
+//		System.out.println("	pixels : " + arr.length);
 		int c=0;
 		for(int i = 0; i < arr.length-3; i+=3) {
 			double B = arr[i];

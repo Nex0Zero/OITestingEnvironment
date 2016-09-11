@@ -91,7 +91,7 @@ public class LineInterpreter {
 				linesOut.add(line);
 		}
 		
-		System.out.println("linestopoint:" + linesOut.size());
+//		System.out.println("linestopoint:" + linesOut.size());
 		return linesOut;
 	}
 	

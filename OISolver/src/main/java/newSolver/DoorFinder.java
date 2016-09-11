@@ -91,7 +91,7 @@ public class DoorFinder {
 				if(-errorDiffX <= dist && dist <= errorDiffX) {
 					drawLine(imageOut, ltp);
 					drawLine(imageOut, lv);
-					System.out.println("Uno");
+//					System.out.println("Uno");
 					
 					areLinesHaveCorner(ltp.getX2(), ltp.getY2(), lv, center, imageOut);
 				}
@@ -99,9 +99,9 @@ public class DoorFinder {
 				dist = Distance.distBetween((float)lv.getX1(), (float)lv.getY1(), 
 						(float)ltp.getX2(), (float)ltp.getY2());
 				if(-errorDiffX <= dist && dist <= errorDiffX) {
-					drawLine(imageOut, ltp);
-					drawLine(imageOut, lv);
-					System.out.println("Duos");
+//					drawLine(imageOut, ltp);
+//					drawLine(imageOut, lv);
+//					System.out.println("Duos");
 					
 					areLinesHaveCorner(ltp.getX1(), ltp.getY1(), lv, center, imageOut);
 				}
@@ -278,7 +278,7 @@ public class DoorFinder {
 		if( diffRatio > (minLengMultipler*(1+errorLen)) )
 			return;
 		
-		System.out.println("TRES==========");
+//		System.out.println("TRES==========");
 		drawBlock(image, vert, new LineLSD(x, y, x, yBottom));
 		
 	}

@@ -121,7 +121,7 @@ GrafSolution
 		System.out.println(name + ": " + AccCalcDoorsAll.class.getName() + ": result: " + result);
 	}
 	private static void accCalc3(File original, File solution, String name) {
-		String doors = "corridor0";
+		String doors = "door0";
 		// original = corridorMasks
 		// solution = corridor-Graf
 		double resultFULL = 0;
@@ -172,16 +172,16 @@ GrafSolution
 				}
 				// Average
 				result = (double) (result / solutionPicFiles.length);
-				System.out.println("PART: " + result + "\n");
+//				System.out.println("PART: " + result + "\n");
 				resultSEQ += result;
 			}
 			resultSEQ = resultSEQ / (double) filePART.length;
-			System.out.println("SEQ: " + resultSEQ + "\n_____________________________\n\n\n\n");
+//			System.out.println("SEQ: " + resultSEQ + "\n_____________________________\n\n\n\n");
 			resultFULL += resultSEQ;
 		}
 		resultFULL = resultFULL / fileSEQ.length;
 		
-		System.out.println(name + ": " + AccCalcCorridor.class.getName() + ": result: " + resultFULL);
+		System.out.println(name + ": " + AccCalcDoorsAll.class.getName() + ": result: " + resultFULL);
 	}
 	
 	private static BufferedImage mergeDoors(File doorFiles[], int index) {

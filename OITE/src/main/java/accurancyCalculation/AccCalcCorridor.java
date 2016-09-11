@@ -113,7 +113,7 @@ KluchSolution
 		System.out.println(name + ": " + AccCalcCorridor.class.getName() + ": result: " + result);
 	}
 	private static void accCalc2(File original, File solution, String name) {
-		String doors = "corridor0";
+		String doors = "corridor";
 		// original = corridorMasks
 		// solution = corridor-Graf
 		double resultFULL = 0;
@@ -162,7 +162,6 @@ KluchSolution
 					// Compare images  HERE!!!
 					localResult = compareImages(originalImage, solutionImage);
 					// Add to result
-					System.out.println(localResult);
 					result += localResult;
 				}
 				// Average
